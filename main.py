@@ -1,4 +1,5 @@
 from kd import KDTree
+from data import data
 
 
 def lsh():
@@ -6,12 +7,6 @@ def lsh():
 
 
 if __name__ == '__main__':
-    points = [
-        [1, 2, 3],
-        [4, 5, 5],
-        [2, 1, 2],
-        [7, 7, 7],
-    ]
-    kd_tree = KDTree(points, 3)
-    knn = kd_tree.get_knn([1, 1, 1], 1, False)
-    print(knn)
+    kd_tree = KDTree(data)
+    range_results = kd_tree.range_query("a", "l", 0, 20)
+    print(list(map(lambda x: x.surname, range_results)))
