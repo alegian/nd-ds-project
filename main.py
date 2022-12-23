@@ -1,16 +1,17 @@
-class Scientist:
-    def __init__(self, s, a, e):
-        self.surname = s
-        self.awards = a
-        self.education = e
+from kd import KDTree
 
 
-data = [
-    Scientist('karagiannis', 5, 'ceid'),
-    Scientist('argyrokastritis', 18, 'ceid'),
-    Scientist('abramopoulos', 69, 'ceid'),
-    Scientist('pantazaras', 45, 'ceid')
-]
+def lsh():
+    print('lmao')
+
 
 if __name__ == '__main__':
-    print('hello world')
+    points = [
+        [1, 2, 3],
+        [4, 5, 5],
+        [2, 1, 2],
+        [7, 7, 7],
+    ]
+    kd_tree = KDTree(points, 3)
+    knn = kd_tree.get_knn([1, 1, 1], 1, False)
+    print(knn)
