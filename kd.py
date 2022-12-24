@@ -29,7 +29,6 @@ class KDTree(object):
             elif i == 1:
                 if node[2].awards >= award_min and node[0] is not None:
                     out = out + range_query(node[0], surname_min, surname_max, award_min, award_max, 0)
-                    print('prepei 2', out)
                 if node[2].awards <= award_max and node[1] is not None:
                     out = out + range_query(node[1], surname_min, surname_max, award_min, award_max, 0)
 
