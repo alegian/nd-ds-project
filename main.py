@@ -1,5 +1,5 @@
 from kd import KDTree
-from quad import Quad
+from quad import Quad, Point
 from data import data
 
 
@@ -14,4 +14,6 @@ if __name__ == '__main__':
 
     quad_tree = Quad()
     quad_tree.mass_insert(data)
+    range_results = quad_tree.range_query('abramopoulos', 'karagiannis', 0, 70)
+    print(list(map(lambda x: x.surname, range_results)))
 
