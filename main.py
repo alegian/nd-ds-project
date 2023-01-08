@@ -1,23 +1,34 @@
 from kd import KDTree
 from quad import Quad
 from range import Range
-from data import data
-
-
-def lsh():
-    print('lmao')
+from data import generate_data
+from lsh import lsh
 
 
 if __name__ == '__main__':
-    # kd_tree = KDTree(data)
-    # range_results = kd_tree.range_query("a", "l", 0, 20)
-    # print(list(map(lambda x: x.surname, range_results)))
+    data = generate_data(200)
+    mode = input("""
+    Enter operation mode: 
+        mode 0: k-d tree
+        mode 1: quad tree
+        mode 2: range tree
+        mode 3: r-tree
+    """)
+    mode = int(mode)
+    range_results = []
 
-    # quad_tree = Quad()
-    # quad_tree.mass_insert(data)
-    # range_results = quad_tree.range_query('abramopoulos', 'karagiannis', 0, 70)
-    # print(list(map(lambda x: x.surname, range_results)))
+    if mode == 0:
+        kd_tree = KDTree(data)
+        range_results = kd_tree.range_query("h", "l", 5, 20)
+    elif mode == 1:
+        quad_tree = Quad()
+        quad_tree.mass_insert(data)
+        range_results = quad_tree.range_query('abramopoulos', 'karagiannis', 0, 70)
+    elif mode == 2:
+        tree = Range(data)
+        range_results = tree.range_query('p', 'zz', 0, 99)
+    elif mode == 3:
+        print('WIP')
 
-    tree = Range(data)
-    range_results = tree.range_query('p', 'zz', 0, 99)
-    print(list(map(lambda x: x.surname, range_results)))
+    lsh_results = lsh(range_results, 0.6)
+    print(list(map(lambda x: f'{x.surname} {x.awards}', lsh_results)))
