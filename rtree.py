@@ -1,34 +1,44 @@
-class Point(object):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+class MBR:
+    def __init__(self, xmin, xmax, ymin, ymax):
+        self.xmin = xmin
+        self.xmax = xmax
+        self.ymin = ymin
+        self.ymax = ymax
 
+
+def calc_area(mbr, data):
+    # smart function
+
+def find_min_child(children, data):
+    min_area = float('inf')
+    min_child = children[0]
+    for child in children:
+        area = calc_area(child.mbr, data)
+        if area < min_area:
+            min_area = area
+            min_child = child
+    return min_child
 
 class RTree:
-    def __init__(self, data, top_left=Point('', 0), bot_right=Point('', 0)):
+    def __init__(self, data=None):
         self.data = data
-        self.first = None
-        self.second = None
-        self.third = None
-        self.top_left = top_left
-        self.bot_right = bot_right
+        self.children = []
+
+        if data is not None:
+            self.mbr = MBR(data.surname, data.surname, data.awards, data.awards)
 
     def insert(self, data):
-        if not data:
-            return
-
-        if self.first is None:
-            self.first = RTree(data, Point(data.surname, data.awards), Point(data.surname, data.awards))
-            return
-        elif self.second is None:
-            self.second = RTree(data, Point(data.surname, data.awards), Point(data.surname, data.awards))
-            return
-        elif self.third is None:
-            self.third = RTree(data, Point(data.surname, data.awards), Point(data.surname, data.awards))
-            return
+        if len(self.children) < 3:
+            self.children.append(RTree(data))
+            # update MBR
         else:
-            # insert sto paidi me elaxisto embadon
+            min_child = find_min_child(self.children, data)
+            if not min_child.is_leaf():
+                min_child.insert(data)
+            else:
+                new_node = RTree(min_child.data)
+                min_child.data = None
+                min_child.insert(new_node)
 
-
-    def range_query(self, surname_min, surname_max, award_min, award_max):
-        out = []
+    def is_leaf(self):
+        return self.data is not None
