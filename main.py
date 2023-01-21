@@ -1,6 +1,7 @@
 from kd import KDTree
 from quad import Quad
 from range import Range
+from rtree import RTree
 from data import generate_data
 from lsh import lsh
 
@@ -28,7 +29,8 @@ if __name__ == '__main__':
         tree = Range(data)
         range_results = tree.range_query('p', 'zz', 0, 99)
     elif mode == 3:
-        print('WIP')
+        rtree = RTree()
+        rtree.mass_insert(data)
 
     lsh_results = lsh(range_results, 0.6)
     print(list(map(lambda x: f'{x.surname} {x.awards}', lsh_results)))

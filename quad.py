@@ -1,4 +1,4 @@
-from alphabetical_average import str_average
+from str_utils import str_average
 
 
 class Point(object):
