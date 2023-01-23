@@ -32,17 +32,27 @@ def str_average(a, b):
 
 
 def str_diff_norm_squared(a, b):
-    exponent = 5
+    exponent = 10
     diff = []
 
+    base = len(alphabet)
     max_len = max(len(a), len(b))
     a = a.ljust(max_len, ' ')
     b = b.ljust(max_len, ' ')
+    borrow = 0
 
-    for i, c in enumerate(a):
+    for i, c in enumerate(reversed(a)):
         idx1 = alphabet.index(c)
-        idx2 = alphabet.index(b[i])
-        diff.append((idx1-idx2)*(24**exponent))
+        idx2 = alphabet.index(b[len(a)-1-i])
+        diff.insert(0, ((idx1-idx2)-borrow) % base)
+        if (idx1-idx2)-borrow < 0:
+            borrow = 1
+        else:
+            borrow = 0
+
+    weights = []
+    for i in range(len(diff)):
+        weights.append(base**exponent)
         exponent = exponent - 1
 
-    return numpy.linalg.norm(diff)
+    return numpy.linalg.norm(numpy.multiply(diff, weights))

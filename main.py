@@ -31,6 +31,7 @@ if __name__ == '__main__':
     elif mode == 3:
         rtree = RTree()
         rtree.mass_insert(data)
+        range_results = rtree.range_query('g', 'p', 5, 9)
 
     lsh_results = lsh(range_results, 0.6)
     print(list(map(lambda x: f'{x.surname} {x.awards}', lsh_results)))

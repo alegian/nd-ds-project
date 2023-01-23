@@ -8,30 +8,40 @@ class MBR:
         self.ymin = ymin
         self.ymax = ymax
 
+    def contains(self, x, y):
+        return self.xmin <= x <= self.xmax and self.ymin <= y <= self.ymax
 
-def calc_area(mbr, data):
-    x = data.surname
-    y = data.awards
+    def extend(self, x, y):
+        new_mbr = MBR(self.xmin, self.xmax, self.ymin, self.ymax)
+        if new_mbr.xmin > x:
+            new_mbr.xmin = x
+        if new_mbr.xmax < x:
+            new_mbr.xmax = x
+        if new_mbr.ymin > y:
+            new_mbr.ymin = y
+        if new_mbr.ymax < y:
+            new_mbr.ymax = y
+        return new_mbr
 
-    if mbr.xmin <= x <= mbr.xmax and mbr.ymin <= y <= mbr.ymax:
-        return 0
+    def calc_area(self):
+        dx = str_diff_norm_squared(self.xmax, self.xmin)
+        dy = self.ymax - self.ymin
+        return dx * dy
 
-    if x <= mbr.xmin and y <= mbr.ymin:
-        dx = str_diff_norm_squared(mbr.xmin, x)
-        dy = abs(mbr.ymin - y)
-        return dx*dy
-    elif x >= mbr.xmax and y >= mbr.ymax:
-        dx = str_diff_norm_squared(mbr.xmax, x)
-        dy = abs(mbr.ymax - y)
-        return dx*dy
+    def area_increase(self, x, y):
+        if self.contains(x, y):
+            return 0
+        else:
+            extended = self.extend(x, y)
+            diff = extended.calc_area() - self.calc_area()
+            return diff
 
 
 def find_min_child(children, data):
     min_area = float('inf')
     min_child = children[0]
     for child in children:
-        area = calc_area(child.mbr, data)
-        print(area)
+        area = child.mbr.area_increase(data.surname, data.awards)
         if area < min_area:
             min_area = area
             min_child = child
@@ -57,14 +67,7 @@ class RTree:
             if self.mbr is None:
                 self.mbr = MBR(data.surname, data.surname, data.awards, data.awards)
             else:
-                if self.mbr.xmin > data.surname:
-                    self.mbr.xmin = data.surname
-                if self.mbr.xmax < data.surname:
-                    self.mbr.xmax = data.surname
-                if self.mbr.ymin > data.awards:
-                    self.mbr.ymin = data.awards
-                if self.mbr.ymax < data.awards:
-                    self.mbr.ymax = data.awards
+                self.mbr = self.mbr.extend(data.surname, data.awards)
         else:
             min_child = find_min_child(self.children, data)
             if not min_child.is_leaf():
