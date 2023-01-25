@@ -9,13 +9,6 @@ class Scientist(object):
         self.education = e
 
 
-class Scientist(object):
-    def __init__(self, s, a, e):
-        self.surname = s
-        self.awards = a
-        self.education = e
-
-
 def generate_data(length):
     computer_science_universities = [
         "MIT",
