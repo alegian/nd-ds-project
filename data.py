@@ -25,7 +25,7 @@ def generate_data(length):
 
     scientists = []
     for i in range(length):
-        surname = names.get_full_name().lower()
+        surname = names.get_last_name().lower()
         awards = random.randint(0, 30)
         education = random.sample(computer_science_universities, 5)
         scientist = Scientist(surname, awards, education)
