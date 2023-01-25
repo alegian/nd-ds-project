@@ -1,20 +1,16 @@
-# def lsh(data, threshold):
-#     for d1 in data:
-#         for d2 in data:
-#             if lsh_ratio(d1.education, d2.education) < threshold:
-#                 return []
-#     return data
-
-
 def lsh(data, threshold):
     out = []
     for d1 in data:
+        temp = d1
         if not out:
             out.append(d1)
             continue
         for d2 in out:
             if lsh_ratio(d1.education, d2.education) < threshold:
-                out.append(d1)
+                temp = None
+                break
+        if temp is not None:
+            out.append(temp)
     return out
 
 
