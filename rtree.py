@@ -1,4 +1,4 @@
-from str_utils import str_diff_norm_squared
+from str_utils import str_diff
 
 
 class MBR:
@@ -36,7 +36,7 @@ class MBR:
         return new_mbr
 
     def calc_area(self):
-        dx = str_diff_norm_squared(self.xmax, self.xmin)
+        dx = str_diff(self.xmax, self.xmin)
         dy = self.ymax - self.ymin
         return dx * dy
 

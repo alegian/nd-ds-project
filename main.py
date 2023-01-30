@@ -7,7 +7,7 @@ from lsh import lsh
 
 
 if __name__ == '__main__':
-    data = generate_data(200)
+    data = generate_data(500)
     mode = input("""
     Enter operation mode: 
         mode 0: k-d tree
