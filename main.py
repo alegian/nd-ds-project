@@ -7,31 +7,39 @@ from lsh import lsh
 
 
 if __name__ == '__main__':
-    data = generate_data(500)
-    mode = input("""
-    Enter operation mode: 
-        mode 0: k-d tree
-        mode 1: quad tree
-        mode 2: range tree
-        mode 3: r-tree
-    """)
+    length = input("""How many rows of data do you want to generate? (~200 recommended) """)
+    data = generate_data(int(length))
+
+    mode = input("""Choose operation mode:\n\t0: k-d tree\n\t1: quad tree\n\t2: range tree\n\t3: r-tree\n""")
     mode = int(mode)
+
+    min_sur = input("""Minimum surname for range query: """)
+    max_sur = input("""Maximum surname for range query: """)
+    min_aw = input("""Minimum awards for range query: """)
+    max_aw = input("""Maximum awards for range query: """)
+    min_aw = int(min_aw)
+    max_aw = int(max_aw)
+
+    lsh_thresh = input("""Minimum similarity (0-1) for LSH: """)
+
     range_results = []
+    tree = None
 
     if mode == 0:
-        kd_tree = KDTree(data)
-        range_results = kd_tree.range_query("h", "l", 5, 20)
+        tree = KDTree(data)
     elif mode == 1:
-        quad_tree = Quad()
-        quad_tree.mass_insert(data)
-        range_results = quad_tree.range_query('abramopoulos', 'karagiannis', 0, 70)
+        tree = Quad()
+        tree.mass_insert(data)
     elif mode == 2:
         tree = Range(data)
-        range_results = tree.range_query('p', 'zz', 0, 99)
     elif mode == 3:
-        rtree = RTree()
-        rtree.mass_insert(data)
-        range_results = rtree.range_query('g', 'p', 5, 9)
+        tree = RTree()
+        tree.mass_insert(data)
 
-    lsh_results = lsh(range_results, 0.6)
-    print(list(map(lambda x: f'{x.surname} {x.awards} {x.education}', lsh_results)))
+    range_results = tree.range_query(min_sur, max_sur, min_aw, max_aw)
+    lsh_results = lsh(range_results, float(lsh_thresh))
+
+    # print results
+    print(f'Found {len(lsh_results)} matches:')
+    for res in lsh_results:
+        print(f"""\tSurname: {res.surname}\n\tAwards: {res.awards}\n\tEducation: {res.education}\n\t---------------------------------------------------------------------""")
