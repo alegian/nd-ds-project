@@ -25,6 +25,8 @@ class Quad(object):
         self.bot_right_tree = bot_right_tree
 
     def insert(self, node):
+        print(self.top_left.x, self.top_left.y, self.bot_right.x, self.bot_right.y, node.pos.x, node.pos.y, str_average(self.top_left.x, self.bot_right.x), (self.top_left.y + self.bot_right.y) / 2)
+
         if node is None:
             return
 

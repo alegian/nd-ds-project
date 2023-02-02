@@ -4,11 +4,10 @@ alphabet = ' abcdefghijklmnopqrstuvwxyz'
 
 
 def enbase(x):
-    x = int(x)
     n = len(alphabet)
     if x < n:
-        return alphabet[x]
-    return enbase(x / n) + alphabet[x % n]
+        return alphabet[int(x)]
+    return enbase(x / n) + alphabet[int(x) % n]
 
 
 def debase(x):

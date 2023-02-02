@@ -6,7 +6,7 @@ class KDTree(object):
                 key = lambda x: x.surname
                 if i == 1:
                     key = lambda x: x.awards
-                points.sort(key=key)
+                points = sorted(points, key=key)
                 i = (i + 1) % 2
 
                 m = len(points) >> 1
