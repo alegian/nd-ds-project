@@ -14,7 +14,7 @@ class Node(object):
 
 
 class Quad(object):
-    def __init__(self, top_left=Point('', 0), bot_right=None, n=None, top_left_tree=None, top_right_tree=None,
+    def __init__(self, top_left=Point('', 0), bot_right=Point('zzzzzzzzzz', 30), n=None, top_left_tree=None, top_right_tree=None,
                  bot_left_tree=None, bot_right_tree=None):
         self.top_left = top_left
         self.bot_right = bot_right
@@ -25,9 +25,6 @@ class Quad(object):
         self.bot_right_tree = bot_right_tree
 
     def insert(self, node):
-        #nonsense area
-        print(self.top_left.x, self.top_left.y, self.bot_right.x, self.bot_right.y, node.pos.x, node.pos.y, str_average(self.top_left.x, self.bot_right.x), (self.top_left.y + self.bot_right.y) / 2)
-
         if node is None:
             return
 
@@ -81,11 +78,6 @@ class Quad(object):
                 self.insert(old_node)
 
     def mass_insert(self, data_array):
-        if self.bot_right is None:
-            max_surname = max(list(map(lambda x: x.surname, data_array)))
-            max_awards = max(list(map(lambda x: x.awards, data_array)))
-            self.bot_right = Point(max_surname, max_awards)
-
         for d in data_array:
             new_point = Point(d.surname, d.awards)
             new_node = Node(new_point, d)
