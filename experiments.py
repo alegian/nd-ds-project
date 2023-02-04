@@ -11,13 +11,14 @@ def column(matrix, i):
     return [row[i] for row in matrix]
 
 
-if __name__ == '__main__':
+def experiments():
     scale = 10000
     query_times = []
 
+    print('Running experiments:')
     for i in range(10):
         data = generate_data(1000)
-        print(f'iteration {i}...')
+        print(f'Iteration {i+1}/10 running...')
         new_query_row = []
 
         kd = KDTree(data)
@@ -52,6 +53,7 @@ if __name__ == '__main__':
 
         query_times.append(new_query_row)
 
+    print('Experiment results:')
     print(f'k-d average query time miliseconds: {1000*mean(column(query_times,0))/scale}')
     print(f'quad average query time miliseconds: {1000*mean(column(query_times,1))/scale}')
     print(f'range average query time miliseconds: {1000*mean(column(query_times,2))/scale}')

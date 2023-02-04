@@ -4,6 +4,7 @@ from range import Range
 from rtree import RTree
 from data import generate_data
 from lsh import lsh
+from experiments import experiments
 
 
 if __name__ == '__main__':
@@ -43,3 +44,8 @@ if __name__ == '__main__':
     print(f'Found {len(lsh_results)} matches:')
     for res in lsh_results:
         print(f"""\tSurname: {res.surname}\n\tAwards: {res.awards}\n\tEducation: {res.education}\n\t---------------------------------------------------------------------""")
+
+    # run experiments
+    ans = input("""\n\n\nDo you want to run the experiments? (this can take minutes) y/n """)
+    if ans == 'y':
+        experiments()
